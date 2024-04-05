@@ -7,6 +7,7 @@ import './App.css';
 import { useState,useEffect } from 'react';
 //import mockPosts from 'mock/posts.json';
 import { Button } from 'components/Button';
+import { Form } from 'components/Form';
 
 const Container=styled.div`
   height:100vh;
@@ -29,6 +30,7 @@ interface Post {
 }
 function App() {
   const [posts,setPosts]=useState<ReadonlyArray<Post>>([]);
+  const [showForm, setShowForm]=useState(false);
 
   useEffect(()=> {
     fetch('https://jsonplaceholder.typicode.com/posts')
@@ -46,8 +48,9 @@ function App() {
         <BlogPost key={post.id} title={post.title} body={post.body} />
       ))}
       <ButtonContainer>
-        <Button label="등록" />
+        <Button label="등록" onClick={()=>setShowForm(true)} />
       </ButtonContainer>
+      {showForm && <Form onClose={()=>setShowForm(false)} />}
     </Container>
   );
 }
